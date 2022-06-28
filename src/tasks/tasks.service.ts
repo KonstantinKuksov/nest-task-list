@@ -4,10 +4,18 @@ import { v4 as uuid } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Task as TaskEntity } from './task.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TasksService {
   private tasks: Task[] = [];
+
+  constructor(
+    @InjectRepository(TaskEntity)
+    private taskRepository: Repository<TaskEntity>,
+  ) {}
 
   getAllTasks(): Task[] {
     return this.tasks;
